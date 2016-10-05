@@ -7,4 +7,4 @@
 
 
 ## Appendix
-### <a href="http://ieeexplore.ieee.org/document/5496972/?arnumber=5496972&tag=1" title=>HDFS paper</a>
+### <a href="http://ieeexplore.ieee.org/document/5496972/?arnumber=5496972&tag=1">HDFS paper</a>
