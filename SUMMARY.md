@@ -1,6 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* [Hadoop](hadoop.md)
+* [HDFS](hadoop.md)
 * [MapReduce](mapreduce.md)
 
