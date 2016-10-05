@@ -5,4 +5,4 @@
 * [MapReduce](mapreduce.md)
 * YARN
 
-"language": "fr"
+{"language": "fr"}
