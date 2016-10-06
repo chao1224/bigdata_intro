@@ -91,6 +91,14 @@ BackupNode可以看做是一个只读的NameNode，包含了所有HDFS的元数�
 
 ## 文件读写操作和复制replica管理
 
+### File Read and Write
+
+HDFS不支持数据的删除，只能增加。
+
+### Block Placement
+
+### 
+
 ## Appendix
 
 大部分内容都是参考这篇由Yahoo!的Konstantin,Hairong,Sanjay,和Rober发的 [The Hadoop Distributed File System](http://ieeexplore.ieee.org/document/5496972/?arnumber=5496972&tag=1)
