@@ -51,7 +51,11 @@ NameNode并没有直接给DataNode发送信息，而是通过回复DataNode发�
 
 ## HDFS Client
 
+用户应用通过HDFS Client来访问文件系统，这个client是一个可以导出HDFS接口的代码库。
 
+和传统的文件系统一样，HDFS也支持读写删文件，以及创建、删除文件夹的操作。用户应用通过namespace的路径来找到文件和目录。并且这个接口是封装完善的，用户不需要知道系统元数据和数据存储在不同的服务器上，也不需要知道每个block有多个replica。
+
+当应用读一个文件的时候，HDFS先要找到存储这个文件block的DataNode所对应的NameNode，然后直接和NameNode连接，说要
 
 ## 文件读写操作和复制replica管理
 
