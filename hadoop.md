@@ -93,7 +93,21 @@ BackupNode可以看做是一个只读的NameNode，包含了所有HDFS的元数�
 
 ### File Read and Write
 
-HDFS不支持数据的删除，只能增加。
+HDFS不支持数据的删除，只能增加。它实现了一种single-writer，multiple-reader的模式。
+
+HDFS对每个clien保证了一个租期lease：当某个文件在写的时候，其他client不能写到这个文件中。这个写的client会不定期的发送heartbeat来跟新状态；当它关闭文件时，这个lease会被激活。
+
+HDFS文件是由block组成，当需要一个新的block时，NameNode分配一个block和一个唯一的block ID，并确定哪几个DataNode保存这个block的复制。DataNode形成一个数据流，数据以包packet流的方式输送。当一个包缓冲packet buffer填满时，它就会被输出到pipeline中。
+
+数据被写到HDFS中，知道文件关闭用户才能看到数据。如果要边传输数据，边看到，就要用到hflush()的操作。当前一个packet被放到了pipeline中，hflush会等到所有的DataNode确认收到了这个packet再传下一个。
+
+cluster中的节点每天都会发生。HDFS生成、保存每个data block的checksum。checksum会被client确认，来以此检查有client、DataNode或者忘了产生的数据损坏。当一个client创建了一个HDFS文件，它也会计算每个block的checksum，并发送给DataNode（这就应该是存储在每个block的元数据文件内）。当HDFS读取文件时，每个block的data和checksum都传给了client，client根据收到的数据计算checksum，并进行匹配。如果不匹配，那就是数据有问题，会取一个不同的replica，直到checksum验证通过。
+
+当一个client打开文件读取的时候，它会从NameNode拿到一个block链表，和每个block replica的位置。block的位置是按照它们到这个reader的距离排序的，都是从最近的replica开始，如果当前replica失败，就下一个。如果所有的replica都不可读，那么这个read就会失败。
+
+如果读一个在写的文件，而最后一个block的长度对NameNode还未知，那么client会要求某一个replica给在这个read之前最新的文件长度。
+
+HDFS的读写设计是特地为batch运行优化的，比如MapReduce，他需要对应流读写有很高的吞吐量。大量的工作都用来提高读写响应时间，（比如多用内存）来支持类似Scribe这类需要实时给HDFSHBase提供数据流的应用，或者类似HBase提供对大表格实时随机访问。
 
 ### Block Placement
 
