@@ -20,9 +20,38 @@ HDFS的DataNode并没有用类似于RAID的方式来保证数据可靠性，而�
 
 ### NameNode
 
-HDFS的namespace是文件和目录的层级结构。文件和目录都以索引节点inode的形式存储，记录比如permissio,修改和访问时间，namespace和硬盘分配的内容。文件被分成了block(比如129MB，可以自定义)。NameNode维护一个namespace树和file block到NameNode的映射。当client读一个文件的时候，首先通过NameNode找到这个file所有block的位置，然后从距离client比较近的DataNode读取数据。当写数据的时候，client会要求NameNode置顶三个DataNode来存储数据（存三份）。cluster可以有一个NameNode，几千个DataNode和上万个HDFS client，而每个DataNode可以同时执行多个任务。
+HDFS的namespace是文件和目录的层级结构。文件和目录都以索引节点inode的形式存储，记录比如permission,修改和访问时间，namespace和硬盘分配的内容。文件被分成了block(比如128MB，可以自定义)。NameNode维护一个namespace树和file block到NameNode的映射。当client读一个文件的时候，首先通过NameNode找到这个file所有block的位置，然后从距离client比较近的DataNode读取数据。当写数据的时候，client会要求NameNode置顶三个DataNode来存储数据（存三份）。cluster可以有一个NameNode，几千个DataNode和上万个HDFS client，而每个DataNode可以同时执行多个任务。
 
-HDFS将整个namespace存放在RAM中。索引节点数据和每个文件由哪些block组成的list，这些命名系统的元数据都叫做image。image存储在本机文件系统的永久数据叫做checkpoint。
+HDFS将整个namespace存放在RAM中。索引节点数据和每个文件由哪些block组成的list，这些命名系统的元数据都叫做image。image存储在本机文件系统的永久数据叫做checkpoint。NameNode将image的修改日志存储在本地叫journal的文件中。为了提高耐用性，checkpoint和journal可以冗余地存储到其他服务器上。重启的时候，NameSpace可以通过读取namespace和重跑journal来恢复namespace。
+
+### DataNode
+
+DataNode中的每个file block都是有两个文件组成。第一个包含了数据本身，第二个则包含了这个block的元数据，包括这段data的checksum以及generation stamp。data file的文件大小就是block的大小，比如block如果是10M，那这个data file就是10M，并不需要想传统的文件系统那样把整个128M的block都占用。（但是和前面文件被分成128M矛盾了？）
+
+启动一个DataNode的时候，它都会和NameNode就行handshake，目的是为了确认namespace ID和DataNode的软件版本。任意一个不匹配，DataNode就会关闭。
+
+当这个文件系统建立的时候，namespace ID会在分配给这个系统。这个ID会固定存储在cluster中的每台机器上，不同的namespace ID节点无法加入这个cluster中，由此保持了文件系统的完整性。
+
+软件版本的重要性体现在，如果版本不一致，那么会引起数据的损坏和丢失。
+
+一个刚刚初始化并且没有分配namespace ID的DataNode可以加入cluster并且分配到对应的namespace ID。
+
+在handshake过后，DataNode注册到了NameNode上。DataNode还会保存自己唯一的storage ID，这个ID是每个cluster内部唯一标识的ID，使得将来重启IP或者port改变之后，还能认出。storage ID一旦第一次注册之后，就不再改变。
+
+关于block replica，DataNode会通过给NameNode发送block report来标识。一个block report包含了block id，generation stamp和每个block的长度。第一个block report是在注册之后立即发送，后续的就会每一个小时给NameNode发。
+
+DataNode通过心率活动heartbeat来给NameNode确认自己还在正常运转，以及那些block replica还在。默认的heartbeat每3秒发送一次，前面的block replica是每1小时跟新。如果NameNode在10分钟内没有收到DataNode的heartbeat，就认为这个DataNode宕了，然后讲这台宕机的DataNode的block再复制到其他DataNode。heartbeat发送的内容还包含硬盘存储容量（这个在后面资源分配会提到），使用中的storage比例，和当前数据传输的个数（就有几个数据传输在执行）。这些信息都用来NameNode的空间分配和负载均衡决策。
+
+NameNode并没有直接给DataNode发送信息，而是通过回复DataNode发送的heartbeat来传递指示。这些指示包含这些命令：
++ 复制一个block到另外一个节点中
++ 将本地block replica删除
++ 重注册或者关闭node
++ 立即发送一个block report
+在不影响其他NameNode操作的前提下，NameNode每秒钟可以执行上千个heartbeat。
+
+## HDFS Client
+
+
 
 ## 文件读写操作和复制replica管理
 
