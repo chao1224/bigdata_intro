@@ -79,10 +79,15 @@ CheckpointNode定时的将已经有的checkpoint和journal整合到一起，并�
 
 BackupNode和CheckpointNode很像，也是定期地创建checkpoint，但它会额外在内存里保存一个最新的namespace image。
 
-BackupNode从NameNode接受一个journal流，（这些journal都是关于namespace的操作）保存到本地目录，并将这些事务在内存中跑，
+BackupNode从NameNode接受一个journal流，（这些journal都是关于namespace的操作）保存到本地目录，并将这些事务在内存中跑，生成一个自己的image。如果NameNode宕了，那么BackupNode内存中的image和硬盘上的checkpiont就是最新的namespace。
+
+BackupNode不用专门从NameNode下载checkpoint和journal，因为它一直在维护更新image，这也使得BackupNode上的checkpoint进程更加高效，因为它只需要存储namespace到本地。不用像checkpoint一样下载checkpoint和journal，但消耗一定的（实时）计算资源。
+
+显然BackupNode和NameNode的内存需求是一样的。
+
+BackupNode可以看做是一个只读的NameNode，包含了所有HDFS的元数据，除了block的位置。他可以支持NameNode任意操作，除了和block位置相关的。BackupNode不需要永久存储，而NameNode也会把namespace的状态持久化任务交给BackupNode。
 
 ### Upgrades, File System Snapchots
-
 
 ## 文件读写操作和复制replica管理
 
