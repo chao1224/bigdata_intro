@@ -36,7 +36,17 @@ reduce(String key, String value):
         result += v
         // 这是MapReduce最naive的做法
         // 如果某个单词出现了k次，那么就循环k次，每次+1
+    Emit(result)
 ```
+
+注：这里的reduce函数每次执行只是针对于一个key值。
+
+然后用户就会写一个MapReduce specification，包括输入输出文件名，然后调用上面我们写的map和reduce函数。MapReduce specification类似如下：
+
+```
+```
+
+## 类型
 
 
 
