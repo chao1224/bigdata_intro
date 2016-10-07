@@ -14,7 +14,29 @@ Jeff和其他谷歌的程序员已经实现了很多不同的带特殊目的地�
 
 Map的输入是键值对，产生中间键，intermediate key，和指向这个key的数值集合。MapReduce库会把同一个key的库的value集合合并，传递给Reduce函数。
 
-Reduce函数接受中间键以及这个键指向的数值。它将这些数值压缩到一个更小的数据集，通常每个没有或者只有一个输出。
+Reduce函数接受中间键以及这个键指向的数值。它将这些数值压缩到一个更小的数据集，通常每个reduce操作没有或者只有一个输出。
+
+## 例子
+
+经典例子，计算一个大文档集合中每个单词出现的次数。用户会用如下的伪代码：
+
+```
+map(String key, String value):
+    // key: 文档名字
+    // value：文档内容
+    for word in value:
+        EmitIntermediate(word,'1')
+        // 对某个文档中的每个单词遍历，并将这个单词以<word,1>作为中间键值对。
+
+reduce(String key, String value):
+    // key：单词
+    // value： 一系列数数的内容（在这里就是一堆1）
+    result = 0
+    for v in values:
+        result += v
+        // 这是MapReduce最naive的做法
+        // 如果某个单词出现了k次，那么就循环k次，每次+1
+```
 
 
 
