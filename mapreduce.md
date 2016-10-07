@@ -44,10 +44,17 @@ reduce(String key, String value):
 然后用户就会写一个MapReduce specification，包括输入输出文件名，然后调用上面我们写的map和reduce函数。MapReduce specification类似如下：
 
 ```
+specification
 ```
 
 ## 类型
 
+通过上面，我们不难发现map和reduce的输入输出格式有某些关系：
+
+```
+    map    (k1, v1)    list(k2,v2)
+    reduce    (ke, list(v2))    v2
+```
 
 
 # Implementation
