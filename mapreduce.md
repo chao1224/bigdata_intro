@@ -51,6 +51,7 @@ specification
 
 通过上面，我们不难发现map和reduce的输入输出格式有某些关系：
 
+
 ```
     map    (k1, v1)    list(k2,v2)
     reduce    (ke, list(v2))    v2
