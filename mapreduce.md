@@ -53,7 +53,7 @@ specification
 
 
 ```
-    map    (k1, v1)    $$\rightarrow$$list(k2,v2)
+    map    (k1, v1)    list(k2,v2)
     reduce    (ke, list(v2))    v2
 ```
 
