@@ -10,9 +10,11 @@ Jeff和其他谷歌的程序员已经实现了很多不同的带特殊目的地�
 
 # Programming Model
 
-主要描述基本的编程模型，并举例。
-
 输入是一系列键值对，输出也是键值对。
+
+Map的输入是键值对，产生中间键，intermediate key，和指向这个key的数值集合。MapReduce库会把同一个key的库的value集合合并，传递给Reduce函数。
+
+
 
 # Implementation
 
