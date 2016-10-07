@@ -14,17 +14,21 @@ Jeff和其他谷歌的程序员已经实现了很多不同的带特殊目的地�
 
 Map的输入是键值对，产生中间键，intermediate key，和指向这个key的数值集合。MapReduce库会把同一个key的库的value集合合并，传递给Reduce函数。
 
+Reduce函数接受中间键以及这个键指向的数值。它将这些数值压缩到一个更小的数据集，通常每个没有或者只有一个输出。
+
 
 
 # Implementation
 
 描述了MapReduce实现接口，以及如何如何适用到谷歌内。
 
-# Refinements 
+# Refinements
 
 描述了几个有助于编程模型的提升refinement。
 
 # Performance 性能
 
 # Appendix
-每次提到MapReduce，大家都会想到Jeff Dean，这里主要也是参考了他和Sanjay Ghemawat的paper。这篇发表在2008年[Communication of the ACM(CACM)](http://cacm.acm.org/)上的文章，引用量在我写这些文字的时候超过了18k [MapReduce: Simplified Data Processing on Large Clusters](http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf)
+
+每次提到MapReduce，大家都会想到Jeff Dean，这里主要也是参考了他和Sanjay Ghemawat的paper。这篇发表在2008年[Communication of the ACM\(CACM\)](http://cacm.acm.org/)上的文章，引用量在我写这些文字的时候超过了18k [MapReduce: Simplified Data Processing on Large Clusters](http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf)
+
