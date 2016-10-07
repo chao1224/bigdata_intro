@@ -44,18 +44,31 @@ reduce(String key, String value):
 然后用户就会写一个MapReduce specification，包括输入输出文件名，然后调用上面我们写的map和reduce函数。MapReduce specification类似如下：
 
 ```
-specification
+    Configuration conf = new Configuration();
+    String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+    Job job = new Job(conf, "separate anagram");
+
+    job.setJarByClass(anagram.class);
+    job.setMapperClass(FirstMapper.class);
+    job.setReducerClass(FirstReducer.class);
+
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(Text.class);
+    job.setOutputKeyClass(NullWritable.class);
+    job.setOutputValueClass(Text.class);
 ```
+
+这里类似`setMapOutputKeyClass`的四个类即为设置输入输出类型。
 
 ## 类型
 
 通过上面，我们不难发现map和reduce的输入输出格式有某些关系：
 
+```
+    map       (k1, v1)        --->list(k2,v2)
+    reduce    (ke, list(v2))  --->v2
+```
 
-```
-    map    (k1, v1)    list(k2,v2)
-    reduce    (ke, list(v2))    v2
-```
 
 
 # Implementation
