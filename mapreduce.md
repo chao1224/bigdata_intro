@@ -123,9 +123,13 @@ master会定期地ping worker。如果没有在某个时间内收到回复，那
 
 当一个map任务先后由A和B跑，（A失败了）所有指向reduce任务的worker都被通知到，所以还没有从A读取数据的worker会从B开始读。
 
-### master failutere
+### master failure
 
+很容易让master定期地将数据结构写到checkpoint里。因为只有一个master，所以宕机的可能性不高；因此在谷歌当时的系统如果master宕了，就直接停止所有的MapReduce计算。
 
+## Locality
+
+网络带宽network bandwidth在计算环境中是一个比较稀少的资源。在谷歌内部实现的时候，输入数据是保存在本地硬盘上（GFS的实现方法和HDFS不一样），因此不需要专门的网络传输数据给map函数，从而节省了一部分带宽。GFS将文件分割成64M的block，并保存三分在不同的机器上。（HDFS是128M保存三份）
 
 # Refinements
 
