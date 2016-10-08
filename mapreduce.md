@@ -89,7 +89,7 @@ reduce(String key, String value):
 
 描述了MapReduce实现接口，以及如何如何适用到谷歌内部。
 
-Map调用是通过将输入数据分成M份而分散在不同的机器上，而数据的分割可以并行处理。reduce调用根据而分布。
+Map调用是通过将输入数据分成M份而分散在不同的机器上，而数据的分割可以并行处理。reduce调用的分布是根据。
 
 # Refinements
 
