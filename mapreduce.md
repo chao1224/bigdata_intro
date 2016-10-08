@@ -139,7 +139,7 @@ R经常是由用户指定的，因为每一个reduce的output最后会整合到�
 
 ## 备份任务Backup Task
 
-
+经常导致整体MapReduce使用时间变长的操作就是"straggler"：一个机器经常会在完成最后几个map或者reduce任务的时候用异常多的时间。导致straggler的原因有很多，比如
 
 # Refinements
 
