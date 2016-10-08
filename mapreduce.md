@@ -69,7 +69,17 @@ reduce(String key, String value):
     reduce    (ke, list(v2))  --->v2
 ```
 
+不难发现输入和输出的键值对的domain都不一样，并且中间键值对和输出的键值对domain一样。
 
+## 跟多例子
+
++ 分布式查找distributed grep：每一个map函数，如果某一行和某种模式符合的时候，就将这一行字符串输出。然后reduce函数只是将输入复制到输出。
+
++ URL访问计数：map将每个网页请求的日志作为输出，intermediate是<URL,1>，而reduce函数讲对每个URL进行计数，输出<URL,total count>。
+
++ 逆网络连接图reverse web-link graph：map函数的输出是<target,source>，表示对source网页的每个target URL。reduce函数则是对于同一个target URL，找到所有包含这个URL的页面list，<target,list<source>>。
+
++ 每个主机的术语向量term-vector per host：术语向量term vector总结了某个文档或者文档集合中出现的最重要的单词，作为<word,frequency>对。map函数输入是文件，输出是
 
 # Implementation
 
