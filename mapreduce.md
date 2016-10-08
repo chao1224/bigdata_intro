@@ -117,6 +117,14 @@ master节点保持好几个数据结构。对每一个map和reduce任务，它�
 
 ### worker failure
 
+master会定期地ping worker。如果没有在某个时间内收到回复，那么master就会将这个worker标记为失败。任何在这个worker上面完成的map任务会标记回到空闲状态，以便重新执行。类似的，任何这个worker上执行中的map和reduce任务也会重置回空闲状态，等着安排以重新运行。
+
+已经完成的map任务要再跑一次是因为它们的输出数据是保存在本地硬盘上，而如果worker宕了，数据也会跟着损失。完成了的reduce任务因为已经将结果保存到了全局的文件系统中，所以不需要重新跑。
+
+当一个map任务先后由A和B跑，（A失败了）所有指向reduce任务的worker都被通知到，所以还没有从A读取数据的worker会从B开始读。
+
+### master failutere
+
 
 
 # Refinements
