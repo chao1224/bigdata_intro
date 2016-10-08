@@ -101,6 +101,18 @@ Map调用是通过将输入数据分成M份而分散在不同的机器上，而�
 
 5. 当一个执行reduce的worker从master那里接收到intermediate的位置信息，它就调用RPC来从map worker的本地磁盘读取数据。当一个reduce worker读完所有的intermediate数据，它就会根据intermediate key进行排序，因此同样key的键值对会分到一组。排序的原因是这样可以让同一个key的键值对分到一起。如果数据量太大，那么就需要external sort（即当内存不够时，利用硬盘存储）。
 
+6. reduce worker会遍历排序后的中间键值，将键值和数据传递给reduce函数。reduce函数的output会添加append到最终输出文件。
+
+7. 当所有的map和reduce函数都完成，master会唤醒用户程序。然后用户程序里的MapReduce调用就会返回给用户代码？？？
+
+执行完成之后，output数据在R个输出文件内，每一个reduce任务针对一个输出结果。用户不需要将这R个输出文件合并到一个，因为他们也经常是另外一个MapReduce调用的输入（n个连在一起），或者另外一个分布式应用会直接使用这些分布式的数据。（后面会提到，现在看的话，不确定类似Hive、Pig的程序是否会这么调用它）
+
+## Master数据结构
+
+master节点保持好几个数据结构。对每一个map和reduce任务，它保存了这个任务的状态和worker机器的识别（仅针对与非空闲的任务）。
+
+
+
 # Refinements
 
 描述了几个有助于编程模型的提升refinement。
