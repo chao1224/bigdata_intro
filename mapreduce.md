@@ -135,9 +135,11 @@ master会定期地ping worker。如果没有在某个时间内收到回复，那
 
 我们将Map阶段分成M个部分，将Reduce分成R个部分。理论上，M和R要比worker机器数多。让每个worker有不同的任务会提高动态负载均衡，同时当一个worker宕机的时候也提升了恢复速度：某一个worker完成的map任务可以分布到别的机器上。
 
-
+R经常是由用户指定的，因为每一个reduce的output最后会整合到一个output文件。实际用的时候，我们倾向于选择M使得每一个任务有16-64M，然后R会设置成用的worker数的比较小的倍数。
 
 ## 备份任务Backup Task
+
+
 
 # Refinements
 
