@@ -79,11 +79,17 @@ reduce(String key, String value):
 
 + 逆网络连接图reverse web-link graph：map函数的输出是<target,source>，表示对source网页的每个target URL。reduce函数则是对于同一个target URL，找到所有包含这个URL的页面list，<target,list<source>>。
 
-+ 每个主机的术语向量term-vector per host：术语向量term vector总结了某个文档或者文档集合中出现的最重要的单词，作为<word,frequency>对。map函数输入是文件，输出是
++ 每个主机的术语向量term-vector per host：术语向量term vector总结了某个文档或者文档集合中出现的最重要的单词，作为<word,frequency>对。map函数输入是文档，输出是<hostname,term vector>，hostname可以从文档的URL中获取。reduce函数则是对于某一个hostname，集合了所有的term vector，去掉频繁率比较低的项，然后输出<hostname,term vector>。
+
++ 倒排索引inverted index：map函数对于每一个输入的文档，输出<word,document ID>作为intermediate键值对。reduce函数接收对于某一个单词的所有键值对，按照文档ID排序，输出<word,list<document ID>>。
+
++ 分布式排序distributed sort：map函数对于每一条记录取出键值，输出<key,record>。reduce函数？？？
 
 # Implementation
 
-描述了MapReduce实现接口，以及如何如何适用到谷歌内。
+描述了MapReduce实现接口，以及如何如何适用到谷歌内部。
+
+
 
 # Refinements
 
