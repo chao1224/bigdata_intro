@@ -99,7 +99,7 @@ Map调用是通过将输入数据分成M份而分散在不同的机器上，而�
 
 4. 间隔性的，缓冲的键值对就会写到本地磁盘，按照分配函数分到R个区域。这些键值对所在的本地磁盘信息会返回给master节点，而master节点则会将这些位置传递给reduce节点。
 
-5. 当一个执行reduce的worker从master那里接收到intermediate的位置信息，它就调用RPC来从map worker的本地磁盘读取数据。当一个reduce worker读完所有的intermediate数据，它就会根据intermediate key进行排序，因此同样key的键值对会分到一组。排序的原因是这样可以让同一个key的键值对分到一起。如果数据量太大，那么就需要external sort（即）。
+5. 当一个执行reduce的worker从master那里接收到intermediate的位置信息，它就调用RPC来从map worker的本地磁盘读取数据。当一个reduce worker读完所有的intermediate数据，它就会根据intermediate key进行排序，因此同样key的键值对会分到一组。排序的原因是这样可以让同一个key的键值对分到一起。如果数据量太大，那么就需要external sort（即利用硬盘存储排序的结果）。
 
 # Refinements
 
