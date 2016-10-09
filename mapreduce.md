@@ -16,7 +16,7 @@ Jeff和其他谷歌的程序员已经实现了很多不同的带特殊目的地�
 
 > What distinguishes a programming model from a normal library is that the behavior of the call cannot be understood in terms of the language the program is written in. The behavior of calls to the POSIX thread library cannot be understood in terms of the C language. The reason is that the call invokes an execution model that is different from the execution model of the language. This invocation of an outside execution model is the defining characteristic of a programming model.
 
-这里的
+编程模型和库很类似，但是区别是在编程模型中，编程环境的语言无法理解调用调用命令。（TBC）
 
 # Programming Model
 
