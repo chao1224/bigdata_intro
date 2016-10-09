@@ -51,6 +51,12 @@ ResourceRequest是为了使得用户知道他们全部的需求，或者是roll-
 
 ## Application Master(AM)
 
+一个应用可以是一系列静态的进程，工作的逻辑描述，甚至是一个长期运行的服务。ApplicationMaster是一个协调应用执行的进程，但他自己和其他container一样运行在集群内。RM的一个组件会和container协商，产生这个引导进程。
+
+AM定期的发送heartbeat给RM来确定活跃度，并且跟新请求。在构建好请求的模型后，AM会讲偏好和现在编码到给RM发送的hearbeat信息。作为回应，AM会接受到一个container lease，lease是在一套绑定在某个节点上的资源。根据这个container，AM会调整执行计划。这里应用的分配采用了late binding：产生的进程不是和请求绑定，而是和资源绑定。当AM收到资源的时候，不一定和它请求的保持一致？？？
+
+
+
 ## Node Manager(NM)
 
 ## YARN框架
