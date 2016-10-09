@@ -8,6 +8,16 @@ Jeff和其他谷歌的程序员已经实现了很多不同的带特殊目的地�
 
 解决的方案就是设计了一个新的抽象，这个抽象允许我们能运行程序、但是同时将技术细节隐藏在了库里面，技术细节比如上面提到的并行计算、数据分布、容错能力和负载平衡。抽象的描述受到了Lisp和其他面向函数语言中的map和reduce原始操作的启发，很多甚至大部分操作都可以由map和reduce完成。这种处理方案也能更好地支持大量数据的并行处理，使用重复运行作为解决容错的主要机制。
 
+## 编程模型
+
+编程模型的内容参考[programming model wiki page](https://en.wikipedia.org/wiki/Programming_model)
+
+> A Programming Model refers to the style of programming where execution is invoked by making what appear to be library calls. Examples include the POSIX Thread library and Hadoop's MapReduce.[1] In both cases, the execution model is different from that of the base language in which the code is written. For example, the C programming language has no execution model for thread behavior.
+
+> What distinguishes a programming model from a normal library is that the behavior of the call cannot be understood in terms of the language the program is written in. The behavior of calls to the POSIX thread library cannot be understood in terms of the C language. The reason is that the call invokes an execution model that is different from the execution model of the language. This invocation of an outside execution model is the defining characteristic of a programming model.
+
+
+
 # Programming Model
 
 输入是一系列键值对，输出也是键值对。
