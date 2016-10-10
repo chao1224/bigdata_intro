@@ -6,6 +6,8 @@ YARN这个名字就很有意思 Yet Another Resource Negotiators
 
 YARN的作用就是将资源管理框架和编程模型分离开来，同时为每个任务组件建提供许多调度函数（比如任务容错）。
 
+许多网络公司都用Hadoop来存储、运行数据。而且工程人员和研究人员都能能够在这个平台上同时使用，这也是Hadoop能够成功的原因之一，这也有一个弊端，就是developer经常会将这编程模型拓展到超出集群管理。一种通常模式是提交"map-only"只有map的任务，在集群中随机产生一些任务。这种滥用的例子包括forking web server和gang-schedule计算？？
+
 这些MapReduce的限制就使得大家开始讲Hadoop作为baseline，开始研发新的环境。在这里（YARN）就提供了一个在社区community推动下的解决方案。核心思路就是上面所说的，将资源管理框架和编程模型分开。而此时，MapReduce仅仅是一个运行在YARN上面的应用——为编程模型提供了便利性。其他能运行在YARN上面的编程模型也有很多，比如Dryad，Giraph，Spark和Tez。
 
 # 历史和基本原理 History and Rationale
