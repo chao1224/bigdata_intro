@@ -83,7 +83,15 @@ NM提供本地服务。比如log aggregation服务，可以上传应用写的数
 
 ## 容错能力和可用性
 
+Hadoop是设计用来跑在家用硬件上的，通过在每一层构建容错，它能将用户掩盖住监测的复杂性和出错硬件的恢复。YARN也沿用了这个思路，讲容错性分布到了ResourceManager和ApplicationMaster上。
 
+RM可以从初始化时候的永久保存的状态中恢复，当恢复进程完成的时候，它就杀死所有运行中的进程，包括AM。按照正常支持恢复功能的系统，都会保存用户的pipeline。为了让AM能够在RM的重启中存活下来的技术还在进行中。如果有这种方法，那么当RM宕机的时候，AM可以继续执行；然后等RM恢复的时候，AM再重新同步一下即可。
+
+当某个NM宕了，RM通过heartbeat没有回应检测到后，会标记所有在那台node上面的container被杀死，将这个失败告诉所有运行中的AM。而如果这个错误是短暂的，NM会和RM重新同步，清空本地状态然后继续。这两种状态下，AM都会对接电视吧作出回应，很可能是将fault期间在那台node的container里已经完成的任务重新跑一遍。
+
+因为AM只是一个container，所以AM挂了不会影响到任何节点的可用性。RM会将挂了的AM重新启动。重启的AM会和它正在运行的container进行同步。比如，Haddop MapReduce AM会恢复他所有已经跑完的task，但是在AM恢复期间完成的任务会需要重新跑。
+
+最后，container对应出错的方法是完全依赖于framework的。RM从NM收集所有container exit事件，并通过heartbeat将这些时间发送给相对应的AM。MapReduce ApplicationMaster已经收听这些信息，并通过向RM申请新的container来重新做map和reduce任务。
 
 # 附录
 
