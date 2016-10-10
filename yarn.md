@@ -73,7 +73,17 @@ NM提供本地服务。比如log aggregation服务，可以上传应用写的数
 
 ## YARN框架
 
-## 容错能力和
+总结一下YARN的流程
+
+1. 每一个App有AM，通过AM的CLC将应用提交给RM
+2. 当RM开始一个AM的时候，AM通过heartbeat向RM注册并且定期报告他的存活状况和资源需求。
+3. 当RM收集到一个container的时候，AM会构造一个CLC来将这个container在对应的NM上发布。此时这第一个container就是AM本身，AM运行在一个node上。AM可以同时监测运行中的container的状态以及在资源回收的时候停止container。在一个container内监测进程是AM的责任。
+4. 当一个AM完成工作的时候，它会从RM那里取消注册，并且清空。
+5. 可选择的是，框架作战可以加一下控制流在clients之间，来报告作业状态并提供控制平面。
+
+## 容错能力和可用性
+
+
 
 # 附录
 
