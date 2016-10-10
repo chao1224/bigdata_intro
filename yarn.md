@@ -32,7 +32,9 @@ RM在某一个机器上跑后台程序，作用类似于一个中央权威，在
 
 ## Resource Manager(RM)
 
-RM提供了两个公共接口给 1)client提交应用，2)AM动态协商资源，并提供了一个内部接口给NM，为了集群监察和资源访问管理。下面关注的是RM和AM之间的公共协议，因为这个最好的展示了YARN平台和其他跑在上面的应用/框架的边界。
+RM由一个调度器pluggable scheduler和一个ApplicationMaster组成。
+
+RM提供了两个公共接口给 1)client提交应用，2)AM动态协商资源；并提供了一个内部接口给NM，为了集群监察和资源访问管理。下面关注的是RM和AM之间的公共协议，因为这个最好的展示了YARN平台和其他跑在上面的应用/框架的边界。
 
 RM将集群状态的全局模型和运行的应用报告的资源需求匹配。这使得执行全局调度成为可能，但要求调度者能够理解应用的资源需求。交流信息和调度这状态要紧凑、高效，这样RM能对应用需求和集群大小进行延展。资源请求获取的方式是准确度和间接性的一种平衡。幸运的是，调度者对每个应用只处理总体资源文件，而忽视了本地优化和内部应用流。YARN完全没有为map和reduce静态分割资源，它把集群资源当做连续的，从而提高集群利用率。
 
@@ -47,7 +49,7 @@ ResourceRequest是为了使得用户知道他们全部的需求，或者是roll-
 
 调度者追踪、更新、满足这些请求，用NM heartbeat标记的可使用的资源。作为AM发送的请求回应，RM产生container和能够访问资源的标记token。RM将完成的container的突出状态（NM报告的状态），发送给AM。当加入新的NM，AM也会被通知到从而在这些节点上请求新的资源。
 
-新的拓展功能是RM能够从应用那里请求回资源，当集群的资源比较稀缺，调度者准备撤销给定应用的某些资源。我们用类似ResourceRequest的结构来获取本地偏好。填写这些抢占的时候，AM有一定的灵活性，它可以调取那些不太重要的container，检查任务状态，或者讲计算转移到其他运行着对container。整体来说，这保证了应用能够保存工作，而不会强制的关闭某个container。如果应用不是协同的，那么RM能够等待一定的时间后，就可以通过强制NM关闭container来获得所需的资源。
+新的拓展功能是RM能够从应用那里请求回资源，当集群的资源比较稀缺，调度者准备撤销给定应用的某些资源。我们用类似ResourceRequest的结构来获取本地偏好。填写这些抢占的时候，AM有一定的灵活性，它可以调取那些不太重要的container，检查任务状态，或者讲计算转移到其他运行着对container。整体来说，这保证了应用能够保存工作，而不会强制的关闭某个container。如果应用不同意回收资源，那么RM能够等待一定的时间后，就可以通过强制NM关闭container来获得所需的资源。
 
 ## Application Master(AM)
 
@@ -55,9 +57,19 @@ ResourceRequest是为了使得用户知道他们全部的需求，或者是roll-
 
 AM定期的发送heartbeat给RM来确定活跃度，并且跟新请求。在构建好请求的模型后，AM会讲偏好和现在编码到给RM发送的hearbeat信息。作为回应，AM会接受到一个container lease，lease是在一套绑定在某个节点上的资源。根据这个container，AM会调整执行计划。这里应用的分配采用了late binding：产生的进程不是和请求绑定，而是和资源绑定。当AM收到资源的时候，不一定和它请求的保持一致？？？
 
-
-
 ## Node Manager(NM)
+
+NodeManager也是一个后台程序，它认出container的lease、管理container的依赖性、监察执行、和向container提供一系列的服务。通过向RM注册后，NM发送hearbeat，并接受指令。
+
+YARN里面所有的container，包括AM，都是通过container launch context（CLC）描述的。包括了环境变量的map、存储在远程访问硬盘的依赖、安全标记security token、NM服务的有效载荷、和创造一个进程的必要指令。验证了lease之后，NM配置container的环境（包括初始化监察子系统，按照lease中的资源上限）。为了发布container，NM复制所有必要的依赖到本地存储上。如果需要，CLC还包含了下载的凭据。container相互之间可以分析依赖，可以是同一个tenant的container，也可以是不同的tenants。最终NM通过跑一个专门的container来进行垃圾回收。
+
+NM会根据RM和AM的指示，杀死container进程。比如当RM报告某个应用已经完成，当调度这决定把某个container分配给另外的tenant，或者当NM检测到这个container使用超过了lease中描述的上限。AM则可以是不需要这个工作的时候要求container被杀死。不管container是否存在，NM会清理本地的工作目录。当一个应用完成的时候，所有它的containers所占有的资源都将被释放，包括还在集群里面跑的进程。
+
+NM也会定期检查物理节点的健康。它会检测本地硬盘的错误，并且跑管理员配置脚本，来判断是硬件还是软件问题。当发现问题的时候，NM就会将它的状态转换为不健康，报告给RM，然后调度器就会杀死container并停止在这个节点上的分配知道问题解决。
+
+NM提供本地服务。比如log aggregation服务，可以上传应用写的数据到stdout和stderr，这两个文件在任务完成的时候就写到HDFS上。
+
+管理员有可能给NM配置了一套可移植、辅助的服务。当一个container的本地存储会在完成后被清空，它可以永久保存输出。这样，一个进程就可以产生数据，哪怕是超过了container的生命周期。一个重要的用例就是Hadoop MapReduce，intermedaite数据会在map和reduce任务之间传输，通过辅助服务。
 
 ## YARN框架
 
@@ -67,3 +79,4 @@ AM定期的发送heartbeat给RM来确定活跃度，并且跟新请求。在构�
 
 这篇paper主要参考的是[Apache Hadoop YARN: Yet Another Resource Negotiator](http://dl.acm.org/citation.cfm?id=2523633) 这篇paper是有雅虎、微软、脸书的工作人员一起编写。
 
+这篇也总结的很好[YARN Architecture](https://www.zybuluo.com/xtccc/note/248181)
