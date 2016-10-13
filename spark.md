@@ -9,3 +9,8 @@
 # Appendix
 
 主要参考的paper： [Resilient Distributed Datasets: A Fault-Tolerance Abstraction for In-Memory Cluster Computing](http://dl.acm.org/citation.cfm?id=2228301)
+
+然后还有几个不错的参考：
+[理解Spark的核心RDD](http://www.infoq.com/cn/articles/spark-core-rdd) 还有[怎么又是作业部落](https://www.zybuluo.com/jewes/note/35032)
+
+因为这学期时间有限，（好玩的东西太多，来不及尝试）本来打算研究Spark源码，现在只能尽量看了。如果来得及，寒假回国没别的事情就可以玩玩这个。
