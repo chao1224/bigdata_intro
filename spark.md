@@ -4,6 +4,8 @@
 
 类似MapReduce的计算框架，让用户用high-level的操作写并行计算，而不用担心工作分布和容错。但这就使得对于一些需要复用中间结果的应用不是特别有效。在许多iterative机器学习和图算法中，数据复用是非常多的。比如PageRank，K-means clustering，和logistic regression。另外一个就是交互式的数据挖掘，用户要在同一个子数据集上跑多组查询。
 
+
+
 # Appendix
 
-Resilient Distributed Datasets: A Fault-Tolerance Abstraction for In-Memory Cluster Computing
+主要参考的paper： [Resilient Distributed Datasets: A Fault-Tolerance Abstraction for In-Memory Cluster Computing](http://dl.acm.org/citation.cfm?id=2228301)
