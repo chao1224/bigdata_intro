@@ -1,5 +1,7 @@
 # Resilient Distributed Datasets: A Fault-Tolerance Abstraction for In-Memory Cluster Computing
 
+## 主要参考了我在[paper总结里的一篇](https://lschacker.gitbooks.io/running-paper/content/resilient_distributed_datasets_a_fault-tolerance_a.html)
+
 Matei Zaharia, Mosharaf Chowdhury, Tathagata Das, Ankur Dave, Justin Ma, Murphy McCauley, Michael J. Franklin, Scott Shenker, Ion Stoica
 UC Berkeley
 
