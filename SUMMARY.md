@@ -4,7 +4,7 @@
 * [HDFS](hadoop.md)
 * [MapReduce](mapreduce.md)
 * [YARN](yarn.md)
-* [DRF](drf.md)
+* [DRF(Mesos)](drf.md)
 * [Spark](spark.md)
 * [Tez](tez.md)
 
