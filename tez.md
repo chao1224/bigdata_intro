@@ -96,11 +96,11 @@ Tez框架使用了解耦合控制，允许许多实体相互之间交流控制�
 
 数据依赖的action比如sample based range partition或者partition pruning优化，都需要改变DAG。不可能将所有这样的改变前后的重新配置的图编码。所以Tez需要让application将这种决策自己在运行时定义，并让应用和Tez合作，动态改变DAG。这个就通过`VertexManager`抽象实现。
 
-Runtime Graph Re-configuration：当监理一个DAG，每一个vertex都和`VertexManager`联系，`VertexManager`负责每一个vertex在DAG运行时的重配置。业务力促恒框架包含了不同状态的机器（控制vertex和task的生命周期）。vertex state machine负责在状态转换时和`VertexManager`交流。`VertexManager`会被提供对象context object，context objexc告诉他比如一个task完成了，状态转变了；这样`VertexManager`就会在自己vertex状态里面改变相对应的状态。`VertexManager`还可以控制vertex并行化、IPO payload的配置、edge属性、task调度。
+Runtime Graph Re-configuration：当建立一个DAG，每一个vertex都和`VertexManager`联系，`VertexManager`负责每一个vertex在DAG运行时的重配置。业务力促恒框架包含了不同状态的机器（控制vertex和task的生命周期）。vertex state machine负责在状态转换时和`VertexManager`交流。`VertexManager`会被提供对象context object，context objexc告诉他比如一个task完成了，状态转变了；这样`VertexManager`就会在自己vertex状态里面改变相对应的状态。`VertexManager`还可以控制vertex并行化、IPO payload的配置、edge属性、task调度。
 
 Automatic Partition Cardinality Estimation自动划分基数估计：作为运行时优化的一个例子，展示了一些MapReduce关于确定reduce阶段几个tasks的一种解决方案。这个数字通常依赖于reduce阶段数据的大小。shuffle指的是在reduce操作前，跨网络读和将划分的输入聚合起来。在Tez中，`ShuffleVertexManager`可以用来控制读取shuffle data的vertex：任务产生了需要shuffle的data，用`VertexManager` events给`ShuffleVertexManager`发送数据统计来计算整个数据大小和估计reducer数目（用per-reducer desired data size的启发式方法）。因为reducer的个数表示了partition cardinality划分基数，这个方法可以用来估计最有划分数。
 
-Scheduling Optimization：`VertexManager`夜空中每一个vertex的task调度。task应该在输入数据准备完成之后开始。但如果一个任务可以在部分输入数据获取的情况下有意义进行，那么不按照顺序开始。shuffle操作就是这个例子：当一部分输入数据都区之后，可以先开始运行。shuffle是一个很“贵”的操作，提早开始可以减小延迟。无序调度会导致资源的死锁，Tez有内置死锁检测和抢占机制预防死锁。它使用DAG依赖来检测无序任务并通过抢占解决死锁。
+Scheduling Optimization：`VertexManager`也控制每一个vertex的task调度。task应该在输入数据准备完成之后开始。但如果一个任务可以在部分输入数据获取的情况下有意义进行，那么不按照顺序开始。shuffle操作就是这个例子：当一部分输入数据都区之后，可以先开始运行。shuffle是一个很“贵”的操作，提早开始可以减小延迟。无序调度会导致资源的死锁，Tez有内置死锁检测和抢占机制预防死锁。它使用DAG依赖来检测无序任务并通过抢占解决死锁。
 
 ## 3.5 Data Source Initializer
 
