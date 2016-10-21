@@ -33,11 +33,11 @@ DAG：有向无环图，表示数据留图，数据在边的方向流动。
 
 Vertex：代表logical step。一个processing step通过应用的代码进行数据转换，比如filter或者modify。
 
-Logical DAG：由一个vertices集合组成，每一个vertex表示一个logical step。在分布式运行中，有一个节点表示的logical work物理上
+Logical DAG：由一个vertices集合组成，每一个vertex表示一个logical step。
 
-Task：代表了一个vertex的工作单元。在分布式系统中，一个vertex的logical work物理上是在集群中好几台机器上跑的一个task集合。每一个task都是vertex的实力，运行处理了这个vertex代表的部分数据。
+Task：代表了一个vertex的工作单元。分布式系统中，一个vertex的logical work物理上是集群中好几台机器上跑的一个task集合。每一个task都是vertex的实力，运行处理了这个vertex代表的部分数据。
 
-Physical DAG：物理DAG是有tasks集合组成，讲logical DAG拓展到相对应的组成的tasks上。
+Physical DAG：物理DAG是有tasks的集合组成，将logical DAG的所有verteics拓展到相对应的组成的tasks上。
 
 Edge：表示数据流动的方向，在producer和consumer之间。Logical DAG的一条边表示数据的依赖。physical DAG的一条边表示数据的转移。
 
