@@ -43,7 +43,7 @@ RM将集群状态的全局模型和运行的应用报告的资源需求匹配。
 AM将资源需求根据ResourceRequest编成准则，每一个ResourceRequest都包含如下内容：
 
 1. container的数量
-2. 每一个container的资源，比如<2GB RAM,1 CPU>
+2. 每一个container的资源，比如`<2GB RAM,1 CPU>`
 3. 本地偏好locality preference
 4. 应用内部的请求优先性
 
