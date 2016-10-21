@@ -90,7 +90,7 @@ $ \frac{2x}{9} = \frac{y}{3}$
 
 # 5 Alternative Fair Allocation Policies
 
-另外两种分配策略。asset fairness，尽量平均给每一个用户分配的所有资源和。competitive equilibrium from equal incomes（CEEI），一种在微观经济领域受欢迎d公平分配策略。
+另外两种分配策略。asset fairness，尽量平均给每一个用户分配的所有资源和。competitive equilibrium from equal incomes（CEEI），一种在微观经济领域受欢迎的公平分配策略。
 
 ## 5.1 Asset Fairness
 
