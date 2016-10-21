@@ -141,7 +141,7 @@ master会定期地ping worker。如果没有在某个时间内收到回复，那
 
 网络带宽network bandwidth在计算环境中是一个比较稀少的资源。在谷歌内部实现的时候，输入数据是保存在本地硬盘上（GFS的实现方法和HDFS不一样），因此不需要专门的网络传输数据给map函数，从而节省了一部分带宽。GFS将文件分割成64M的block，并保存三分在不同的机器上。（HDFS是128M保存三份）MapReduce的master会参考输入数据的地理位置，然后给map任务安排到三个包含replica数据的机器中的一个。（HDFS只是物理上的靠近，GFS+MapReduce是就在同一个机器上）如果无法达成map worker和输入数据在同一台机器上，那么会尽量使得map任务分派到距离输入数据近的机器上。当实际运行的时候，大部分map worker都会从本地读取输入数据，从而不消耗网络带宽。
 
-## 任务力度Task Granularity
+## 任务粒度Task Granularity
 
 我们将Map阶段分成M个部分，将Reduce分成R个部分。理论上，M和R要比worker机器数多。让每个worker有不同的任务会提高动态负载均衡，同时当一个worker宕机的时候也提升了恢复速度：某一个worker完成的map任务可以分布到别的机器上。
 
