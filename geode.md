@@ -35,7 +35,7 @@ pages在几个data center中被复制了多份，给用户提供的是最近的p
 
 centralized方法会需要把所有`ClickLog`表格的更新到中心data center，在这个data center进行分析。这意味着每天的网络带宽几乎是1.2TB。而Geode提供了location-independent的查询接口，基于分布式数据。Geode接受查询语句，自动划分查询，安排分布式的执行。它构建分布式计划分为两步：
 
-**1. Choose join order and strategies** Geode先为逻辑query Q简历一个physical execution plan，明确table join的顺序和distributed join算法的选择。例子里面只有一个根据`destURL=pageURL`的join。
+**1. Choose join order and strategies** Geode先为逻辑query Q建立一个physical execution plan，明确table join的顺序和distributed join算法的选择。例子里面只有一个根据`destURL=pageURL`的join。
 
 为了做这些选择，我们用`Calcite++`，基于Apache Calcite中心化SQL query planner。增加了distributed join的算法。
 
