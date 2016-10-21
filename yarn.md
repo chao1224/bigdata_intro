@@ -24,7 +24,7 @@ YARN提供了一系列函数，来提供这个平台需要的资源管理。特�
 
 ## 概念 Overview
 
-RM在某一个机器上跑后台程序，作用类似于一个中央权威，在不同应用中调度资源。当有了这么一个可以中心、全局的集群资源视角，RM就可以执行很多功能，比如tenant间的fairness、capacity和locality。依据应用需求、调度优先级和资源可用性，RM动态分配租约lease——叫container——给应用，来跑在专门的节点上。container在逻辑上是一些资源集合，比如<2FB RAM,1 CPU>，这些资源绑定到了某个节点。为了执行和追踪这些分配，RM和每个节点上叫NodeManager（NM）的系统后台程序进行交互。RM和NM的交流是给予hearbeat。NM负责检测资源可用性、报告错误和container生命周期的管理（开始、结束等）RM就将NM状态的快照snapshot集合起来，形成一个全局的视图。
+RM在某一个机器上跑后台程序，作用类似于一个中央权威，在不同应用中调度资源。当有了这么一个可以中心、全局的集群资源视角，RM就可以执行很多功能，比如tenant间的fairness、capacity和locality。依据应用需求、调度优先级和资源可用性，RM动态分配租约lease——叫container——给应用，来跑在专门的节点上。container在逻辑上是一些资源集合，比如`<2FB RAM,1 CPU>`，这些资源绑定到了某个节点。为了执行和追踪这些分配，RM和每个节点上叫NodeManager（NM）的系统后台程序进行交互。RM和NM的交流是给予hearbeat。NM负责检测资源可用性、报告错误和container生命周期的管理（开始、结束等）RM就将NM状态的快照snapshot集合起来，形成一个全局的视图。
 
 作业job通过公共提交协议提交给RM。job会经历准入控制阶段admission control phase，在此期间会验证安全证书，进行运行和管理的检测。合格的job会传递给调度器去跑。当调度器有了足够的资源，应用的状态就从accepted变成running。同时也给AM分配container病在node里面产生一个container。合格的app会被写到硬盘上，当RM重启或者宕机的时候就能恢复。
 
@@ -57,7 +57,7 @@ ResourceRequest是为了使得用户知道他们全部的需求，或者是roll-
 
 一个应用可以是一系列静态的进程，工作的逻辑描述，甚至是一个长期运行的服务。ApplicationMaster是一个协调应用执行的进程，但他自己和其他container一样运行在集群内。RM的一个组件会和container协商，产生这个引导进程。
 
-AM定期的发送heartbeat给RM来确定活跃度，并且跟新请求。在构建好请求的模型后，AM会讲偏好和现在编码到给RM发送的hearbeat信息。作为回应，AM会接受到一个container lease，lease是在一套绑定在某个节点上的资源。根据这个container，AM会调整执行计划。这里应用的分配采用了late binding：产生的进程不是和请求绑定，而是和资源绑定。当AM收到资源的时候，不一定和它请求的保持一致？？？
+AM定期的发送heartbeat给RM来确定活跃度，并且跟新请求。在构建好请求的模型后，AM会将偏好和现在编码到给RM发送的hearbeat信息。作为回应，AM会接受到一个container lease，lease是在一套绑定在某个节点上的资源。根据这个container，AM会调整执行计划。这里应用的分配采用了late binding：产生的进程不是和请求绑定，而是和资源绑定。当AM收到资源的时候，不一定和它请求的保持一致？？？
 
 ## Node Manager(NM)
 
