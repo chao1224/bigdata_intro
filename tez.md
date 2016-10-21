@@ -94,7 +94,7 @@ Tez框架使用了解耦合控制，允许许多实体相互之间交流控制�
 
 ## 3.4 Vertex Manager: dynamically adapting the execution
 
-数据依赖的action比如sample based range partition或者partition pruning优化，都需要改变DAG。不可能将所有这样的改变前后的重新配置的图编码。所以Tez需要让application将这种决策自己在运行时定义，冰河Tez合作，动态改变DAG。这个就通过`VertexManager`抽象实现。
+数据依赖的action比如sample based range partition或者partition pruning优化，都需要改变DAG。不可能将所有这样的改变前后的重新配置的图编码。所以Tez需要让application将这种决策自己在运行时定义，并让应用和Tez合作，动态改变DAG。这个就通过`VertexManager`抽象实现。
 
 Runtime Graph Re-configuration：当监理一个DAG，每一个vertex都和`VertexManager`联系，`VertexManager`负责每一个vertex在DAG运行时的重配置。业务力促恒框架包含了不同状态的机器（控制vertex和task的生命周期）。vertex state machine负责在状态转换时和`VertexManager`交流。`VertexManager`会被提供对象context object，context objexc告诉他比如一个task完成了，状态转变了；这样`VertexManager`就会在自己vertex状态里面改变相对应的状态。`VertexManager`还可以控制vertex并行化、IPO payload的配置、edge属性、task调度。
 
