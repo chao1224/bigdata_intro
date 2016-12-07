@@ -12,4 +12,5 @@
 * rStream
 * Pregel
 * GraphX
+* Parameter Server
 
