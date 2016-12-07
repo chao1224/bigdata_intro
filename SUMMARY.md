@@ -10,4 +10,5 @@
 * [Geode](geode.md)
 * Storm
 * rStream
+* Pregel
 
