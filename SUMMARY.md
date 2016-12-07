@@ -11,4 +11,5 @@
 * Storm
 * rStream
 * Pregel
+* GraphX
 
