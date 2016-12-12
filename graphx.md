@@ -42,7 +42,7 @@ GAS Decomposition：大多数节点程序都和邻居交互，然后广播新的
 
 Graph Partitioning：vertex-cut partitioning
 
-Mirror Vertices：
+Mirror Vertices：同一台机器上可能会有好几个互为neighbour的节点，那么就不需要发送多份message，只需要发送一份给一个mirror节点，然后mirror节点再把这些信息一起返回。
 
 Active Vertices：算法会converge，有点节点比较稳定，所以每次更新的data set变少。一些系统是用来packed data-structures，比如compressed sparse row（CSR），使得访问周围active节点变快。
 
