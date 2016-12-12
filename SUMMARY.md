@@ -1,5 +1,6 @@
 # Summary
 
+## Architecture
 * [Introduction](README.md)
 * [HDFS](hadoop.md)
 * [MapReduce](mapreduce.md)
@@ -8,6 +9,8 @@
 * [Spark](spark.md)
 * [Tez](tez.md)
 * [Geode](geode.md)
+
+## Applications
 * [Storm](storm.md)
 * [rStream](rstream.md)
 * [Pregel](pregel.md)
