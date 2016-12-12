@@ -16,5 +16,5 @@
 * [Pregel](pregel.md)
 * [GraphX](graphx.md)
 * [Parameter Server](parameter-server.md)
-* [BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data](blinkdb-queries-with-bounded-errors-and-bounded-response-times-on-very-large-data.md)
+* [BlinkDB](blinkdb-queries-with-bounded-errors-and-bounded-response-times-on-very-large-data.md)
 
