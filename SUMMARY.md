@@ -9,7 +9,7 @@
 * [Tez](tez.md)
 * [Geode](geode.md)
 * [Storm](storm.md)
-* rStream
+* [rStream](rstream.md)
 * [Pregel](pregel.md)
 * GraphX
 * Parameter Server
