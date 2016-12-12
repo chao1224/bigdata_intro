@@ -14,7 +14,7 @@
 * [Storm](storm.md)
 * [rStream](rstream.md)
 * [Pregel](pregel.md)
-* GraphX
+* [GraphX](graphx.md)
 * [Parameter Server](parameter-server.md)
 * [BlinkDB: Queries with Bounded Errors and Bounded Response Times on Very Large Data](blinkdb-queries-with-bounded-errors-and-bounded-response-times-on-very-large-data.md)
 
