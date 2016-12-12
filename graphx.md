@@ -38,7 +38,7 @@ graph-paralle抽象对于迭代算法很帮助，但是对于没有连接或者�
 
 GAS Decomposition：大多数节点程序都和邻居交互，然后广播新的信息，他们提出了GAS decomposition，将节点程序分为三个data-parallel stages：Gather，Apply，和Scatter。
 
-者带来了一个pull-based的信息处理模型。这样用户就不用专门给vertex发信息，但是没有连接的vertex直接也没法直接通信。
+者带来了一个pull-based的信息处理模型。这样用户就不用专门给vertex发信息，但是没有连接的vertex直接也没法直接通信。几种优化方案。
 
 Graph Partitioning：vertex-cut partitioning
 
