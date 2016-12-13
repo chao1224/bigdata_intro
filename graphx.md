@@ -72,8 +72,6 @@ group-by stage将所有信息收集到同一个节点上，map来apply新的属�
 
 基于Spark的抽象，引入了一些特定的graph operators，列在Listing 4中。
 
-
-
 # 4 The GraphX System
 
 ## 4.1 Distributed Graph Representation
@@ -119,5 +117,7 @@ GraphX将图表示成vertex和edge的collection,建立于Spark RDD抽象之上.
 **Variable Integer Encoding**:尽管vertex ids有64位,但是远远到不了.经过试验,差不多只要5个bytes进行编码.
 
 # Appendix
+
+比较graph parallel model和general-purpose distributed dataflow framework
 
 
