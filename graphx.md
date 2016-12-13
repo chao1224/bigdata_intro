@@ -120,4 +120,16 @@ GraphX将图表示成vertex和edge的collection,建立于Spark RDD抽象之上.
 
 比较graph parallel model和general-purpose distributed dataflow framework
 
+|  |Graph Data Model| Distributed Dataflow Framework |
+|---|---|---|
+|1|使用property graph作为representation|转换为vertex collection和edge collection|
+|2|operations are defined with respect to a single property|operations can span multiple collection|
+|3| | |
+|4| | |
+\\
+
+
+
+
+
 
