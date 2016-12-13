@@ -70,7 +70,9 @@ group-by stage将所有信息收集到同一个节点上，map来apply新的属�
 
 ## 3.3 GraphX Operators
 
-基于Spark的抽象。在Listing 4中。
+基于Spark的抽象，引入了一些特定的graph operators，列在Listing 4中。
+
+
 
 # 4 The GraphX System
 
