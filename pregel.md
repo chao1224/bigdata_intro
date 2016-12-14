@@ -8,6 +8,10 @@ Pregel的计算是由seq of interation组成，叫做supersteps。
 
 vertices之间通过messages进行交流。
 
+combiner: local aggregation of computation results
+
+aggregator: ways of tracking global vertex state
+
 实现determinism:
 + partial orering：确定执行的顺序，先removal，再addition。而且addition的时候，先vertex addition，后edge addition。
 + handlers：解决有好几个vertex creating/removal同时发生。Pregel会随机选择一个，就需要user defined-function，来特地确定顺序。
