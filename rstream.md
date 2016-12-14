@@ -23,6 +23,8 @@ Determinism:
 
 recomputation会级联影响到upstream。
 
+通过一个低水线来判断什么时候能把一些snapshot信息回收。对于stream和vertex分别是lowest seq number和lowest snapshot。
+
 三种recovery的方法。
 1. checkpoint-based recovery:vertex每隔一段时间把它的snapshot进行persistent存储。
 2. relay-based recovery:很多时候，现在的状态值取决于前面的一小段时间，比如五分钟，所以只要recover这么一个small window即可。
