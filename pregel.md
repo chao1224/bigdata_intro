@@ -2,6 +2,8 @@
 
 Pregel的计算是由seq of interation组成，叫做supersteps。
 
+是vertex－centric program model。
+
 输入是有向图，其中每一个vertex都有string ID标记。superstep之间是由global sync point分隔开。在每一步都superstep之内，vertex都是进行分布式计算。
 
 vertices之间通过messages进行交流。
