@@ -36,6 +36,8 @@ worker宕机，supervisor restart worker；对于running topologies，(运行中
 
 提供两种semantic guarantees：至少一次和正好一次。each tuple that is input to the toplogy will be processed at least/exactly once。
 
+Storm实现了at least once。通过增加一个AckerBolt，用XOR来记录输入和输出的data。只有XOR之后为0表示通过。
+
 ## Appendix
 
 Storm的缺点
