@@ -127,3 +127,17 @@ GraphX将图表示成vertex和edge的collection,建立于Spark RDD抽象之上.
 |2|operations are defined with respect to a single property|operations can span multiple collection，比如shuffle|
 |3|用户自定义函数被用来实例化每个节点，并且和邻居交流| |
 |4|对于某些计算不合适，比如没有直接连的节点之间的交互或者是改变图的结构| |
+
+优缺点比较
+
+优点
+
+1. combine graph + regular processing
+2. easier to express computations that change graph structures
+3. falut tolerance: with support of RDD, much clearner -set of failing workers
+
+缺点
+
+1. unnatural to fit for general graph parallel algorithm
+2. performance loss due to generality
+
