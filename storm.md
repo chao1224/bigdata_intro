@@ -38,4 +38,4 @@ worker 宕机，则supervisor重启
 
 Storm的缺点
 1. 同一个topology或者不同topologies的task会在同一个worker上
-2. bolt宕机，queue会溢出，因为包含的内容太多
+2. bolt宕机，reads slow donw -> buffer to fill up -> global input buffer fills up -> output buffer to fill up
