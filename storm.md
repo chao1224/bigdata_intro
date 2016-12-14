@@ -28,11 +28,10 @@ Nimbus是一个thrift服务，Storm topology是Thrift objects。
 
 错误恢复：
 
-Nimbus宕机
-+ worker还能继续，但user不能提交新的topology
-+ 对于running topologies，(运行中的topologies)直到Nimbus revive之前，都不能reassign
+Nimbus宕机， worker还能继续，user不能提交新的topology。
 
-worker 宕机，则supervisor重启
+worker宕机，supervisor restart worker；对于running topologies，(运行中的topologies)直到Nimbus revive之前，都不能reassign。
+
 
 ## Appendix
 
