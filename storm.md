@@ -18,7 +18,7 @@ vertice分为两种:
 
 跑在cluster上，用户把topologies提交给master node，这个master node叫做Nimbus。
 
-实际跑则是在worker上。
+实际跑则是在worker上。一台机器有多个worker。一个worker只跑部分topology，有一个supervisor，在一个JVM上。一个worker有多个executor。一个executor有多个task。bolt和spout在task上面完成。
 
 topology可以认为是一个logical query plan。
 
