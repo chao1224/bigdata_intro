@@ -26,11 +26,15 @@ Nimbus是一个thrift服务，Storm topology是Thrift objects。
 
 每一个worker有一个进程叫supervisor，和master的Nimbus交互。
 
-错误恢复：
+## 错误恢复
 
 Nimbus宕机， worker还能继续，user不能提交新的topology。
 
 worker宕机，supervisor restart worker；对于running topologies，(运行中的topologies)直到Nimbus revive之前，都不能reassign。
+
+## Processing Semantics
+
+提供两种semantic guarantees：至少一次和正好一次。each tuple that is input to the toplogy will be processed at least/exactly once。
 
 ## Appendix
 
