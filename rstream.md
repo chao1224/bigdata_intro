@@ -1,8 +1,8 @@
 # StreamScope: Continuous Reliable Distributed Processing of Big Data Streams
 
-主要是两个数据结构：rStream和rVertex。
+StreamScope是一个DAG，vertex对输入流进行计算，产生输出流。每一个流都可以看作是一个无穷多的时间流。
 
-rVertex就是节点，rStream就是连边。
+主要是两个数据结构：rStream和rVertex。rVertex就是节点，rStream就是连边。
 
 snapshot (# of input stream, # of output stream, current state)
 
