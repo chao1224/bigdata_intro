@@ -13,8 +13,8 @@ combiner: local aggregation of computation results
 aggregator: ways of tracking global vertex state
 
 实现determinism:
-+ partial orering：确定执行的顺序，先removal，再addition。而且addition的时候，先vertex addition，后edge addition。
-+ handlers：解决有好几个vertex creating/removal同时发生。Pregel会随机选择一个，就需要user defined-function，来特地确定顺序。
++ partial orering：对于mutation within superstep的情况，确定执行的顺序。先removal，再addition。而且addition的时候，先vertex addition，后edge addition。
++ handlers：对于这种情况：multiple requests create/remove same vertex/edge in the same superstep。Pregel会随机选择一个，就需要user defined-function，来特地确定顺序。
 
 将graph划分到partition，每个partition由vertices和outgoing edges组成。
 
