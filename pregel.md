@@ -21,3 +21,20 @@ aggregator: ways of tracking global vertex state
 fault-tolerance：设置checkpoint，当某一个partition的n个worker宕机之后，将这个partition reassign、recompute。
 
 master的活动通过barrier时会选择是否终结。
+
+# Appendix
+
+Pregel的缺点：
+1. sync，不一定能converge。比如染色问题。
+2. 类似Page Rank的算法，unpopular点很快converge，然而popular点会不断向unpopular点要数据。
+3. Random Partition有潜在的效率问题
+4. BSP模型，sync
+
+比较Pregel和GraphX
+
+|Pregel|GraphX|
+|---|---|
+|vertex-centric|RDD-centric|
+|message passing|RDD|
+|sync|sync/async|
+random partition|m-way balanced edge/vertex partition|
