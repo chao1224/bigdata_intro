@@ -13,8 +13,10 @@
 
 stratified samples： 有用，但是需要额外的存储
 
-uniform distribution不好：会增加larger group的比重；会misssmaller group。而是用stratified sampling，subgroups are sufficiently represented。
- 
+uniform distribution不好：会增加larger group的比重；会miss smaller group。而是用stratified sampling，subgroups are sufficiently represented。
+
+对于
+
 optimization考虑三个要素
 
 1. sparsity of the data：
@@ -29,4 +31,6 @@ optimization考虑三个要素
 
 ## Appendix
 
-Best paper
+这篇paper获得了Best Paper Award
+
+这篇[文章](http://idke.ruc.edu.cn/resources/Big%20Data%20Reports/Chapter3.pdf)中间有段很关键的翻译，可以参考。
