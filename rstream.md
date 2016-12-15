@@ -1,6 +1,6 @@
 # StreamScope: Continuous Reliable Distributed Processing of Big Data Streams
 
-StreamScope是一个DAG，vertex对输入流进行计算，产生输出流。每一个流都可以看作是一个无穷多的时间流。
+StreamScope是一个DAG，vertex对输入流进行计算，产生输出流。每一个流都可以看作是一个无穷多的事件流。
 
 主要是两个数据结构：rStream和rVertex。rVertex就是节点，rStream就是连边。
 
@@ -16,8 +16,8 @@ failure recovery：宕机后，调用load(snapshot)
 
 Determinism:
 
-1. function determinism
-2. input determinism
+1. function determinism：确定的processing logic
+2. input determinism：确定的读入
 
 用CTI保证。multiple input streams：在每个vertex开始之前插入MERGE操作，产生deterministic(确定的)event序列。
 
