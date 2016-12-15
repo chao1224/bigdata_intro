@@ -37,4 +37,4 @@ Pregel的缺点：
 |vertex-centric|RDD-centric|
 |message passing|RDD|
 |sync|sync/async|
-random partition|m-way balanced edge/vertex partition|
+|random partition|m-way balanced edge/vertex partition|
