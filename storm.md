@@ -14,7 +14,7 @@ architecture：在整个topology中的tuple stream
 
 vertice分为两种:
 + spouts, data source
-+ bouts, process incoming tuples
++ bolts, process incoming tuples
 
 跑在cluster上，用户把topologies提交给master node，这个master node叫做Nimbus。
 
@@ -41,5 +41,5 @@ Storm实现了at least once。通过增加一个AckerBolt，用XOR来记录输�
 ## Appendix
 
 Storm的缺点
-1. 同一个topology或者不同topologies的task会在同一个worker上
-2. bolt宕机／slowdown of a task，reads slow donw -> buffer to fill up -> global input buffer fills up -> output buffer to fill up
+1. 同一个topology或者不同topologies的task会在同一个machine上
+2. bolt宕机／slowdown of a task，reads slow donw -> buffer to fill up -> global input buffer fills up -> updtream output buffer to fill up

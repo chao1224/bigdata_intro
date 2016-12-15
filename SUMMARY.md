@@ -12,7 +12,7 @@
 
 ## Applications
 * [Storm](storm.md)
-* [rStream](rstream.md)
+* [rStream \/ StreamScope](rstream.md)
 * [Pregel](pregel.md)
 * [GraphX](graphx.md)
 * [Parameter Server](parameter-server.md)
