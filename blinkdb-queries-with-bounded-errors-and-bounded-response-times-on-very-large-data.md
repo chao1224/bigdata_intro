@@ -15,7 +15,11 @@ stratified samples： 有用，但是需要额外的存储
 
 uniform distribution不好：会增加larger group的比重；会miss smaller group。而是用stratified sampling，subgroups are sufficiently represented。
 
-对于
+如何确定样本的大小？
+在处理开销可以接受的情况下，存储尽可能多的样本。
+
+具体存放的策略：
+records corresponding to consecutive values in $$\phi$$ are stored in the same block.
 
 optimization考虑三个要素
 
